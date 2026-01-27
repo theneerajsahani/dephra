@@ -1,230 +1,241 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ArrowRight, Box, CheckCircle2, Layers, Smartphone, Upload, Zap } from "lucide-react";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { ArrowRight, Box, CheckCircle2, Layers, Smartphone, Upload, Zap, Eye, MousePointerClick, Sparkles } from "lucide-react";
 import Link from "next/link";
+import { useRef } from "react";
+import HeroViewer from "./components/HeroViewer";
 import ProductViewer from "./components/ProductViewer";
+import SmoothScroll from "./components/SmoothScroll";
 
 export default function Home() {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: containerRef });
+  
+  // Parallax effects
+  const heroY = useTransform(scrollYProgress, [0, 0.5], ["0%", "50%"]);
+  const textY = useTransform(scrollYProgress, [0, 0.5], ["0%", "20%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
+
   return (
-    <main className="min-h-screen w-full bg-white text-zinc-900">
-      
-      {/* Navbar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-zinc-200">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+    <SmoothScroll>
+      <main ref={containerRef} className="relative min-h-screen w-full bg-[#050505] text-white selection:bg-purple-500/30 overflow-x-hidden">
+        
+        {/* Navbar */}
+        <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-6 backdrop-blur-md bg-black/5 border-b border-white/5 mix-blend-difference">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white">
-              <Box className="w-5 h-5" />
-            </div>
-            <span className="text-xl font-bold tracking-tight text-zinc-900">dephra</span>
+            <Box className="w-6 h-6 text-white" />
+            <span className="text-xl font-bold tracking-tighter">dephra</span>
           </div>
           <Link 
             href="https://calendly.com" 
             target="_blank"
-            className="text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 px-5 py-2.5 rounded-full transition-colors shadow-sm shadow-blue-500/20"
+            className="hidden md:flex group items-center gap-2 px-6 py-2 bg-white text-black rounded-full text-sm font-semibold hover:bg-zinc-200 transition-colors"
           >
-            Schedule a Call
+            Start Project
+            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </Link>
-        </div>
-      </nav>
+        </nav>
 
-      {/* Hero Section */}
-      <section className="pt-40 pb-20 px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-medium mb-8 border border-blue-100">
-              <Zap className="w-3.5 h-3.5 fill-current" />
-              Now accepting early access partners
-            </span>
+        {/* Hero Section */}
+        <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
+          {/* 3D Background */}
+          <motion.div style={{ y: heroY }} className="absolute inset-0 z-0 opacity-80">
+            <HeroViewer />
           </motion.div>
+
+          {/* Text Content */}
+          <div className="relative z-10 text-center px-4 w-full max-w-7xl mx-auto pointer-events-none">
+            <motion.div 
+              style={{ y: textY, opacity }}
+              className="flex flex-col items-center"
+            >
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 mb-8 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm text-xs font-medium tracking-wide text-zinc-400">
+                <Sparkles className="w-3 h-3 text-purple-400" />
+                <span>Next-Gen Commerce</span>
+              </div>
+              
+              <h1 className="text-[12vw] leading-[0.8] font-bold tracking-tighter mb-6 mix-blend-exclusion">
+                REALITY<br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/20">RE-RENDERED</span>
+              </h1>
+              
+              <p className="max-w-xl text-lg md:text-xl text-zinc-400 font-light leading-relaxed mb-10 mix-blend-exclusion">
+                Transform static catalogs into immersive spatial experiences. <br className="hidden md:block"/>
+                No code required. Just pure visual impact.
+              </p>
+
+              <div className="pointer-events-auto flex gap-4">
+                <Link 
+                  href="#demo"
+                  className="px-8 py-4 bg-white text-black rounded-full font-bold hover:scale-105 transition-transform active:scale-95"
+                >
+                  Try the Demo
+                </Link>
+                <Link 
+                  href="https://calendly.com"
+                  target="_blank"
+                  className="px-8 py-4 border border-white/20 bg-black/20 backdrop-blur rounded-full font-medium hover:bg-white/10 transition-colors"
+                >
+                  Book a Call
+                </Link>
+              </div>
+            </motion.div>
+          </div>
           
-          <motion.h1 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-5xl md:text-7xl font-bold tracking-tight text-zinc-900 mb-6"
+          {/* Scroll Indicator */}
+          <motion.div 
+            style={{ opacity }}
+            className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-zinc-500 text-xs tracking-widest uppercase"
           >
-            Make your products <br className="hidden md:block"/>
-            <span className="text-blue-600">unforgettable.</span>
-          </motion.h1>
-
-          <motion.p 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-xl text-zinc-500 max-w-2xl mx-auto mb-10 leading-relaxed"
-          >
-            Dephra turns standard product photos into high-fidelity 3D & AR assets. 
-            Boost confidence and conversion by letting customers experience your products from every angle.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
-          >
-             <Link 
-              href="https://calendly.com" 
-              target="_blank"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-zinc-900 text-white rounded-full font-semibold text-lg hover:bg-zinc-800 transition-all hover:shadow-lg hover:-translate-y-0.5"
-            >
-              Book a Demo
-              <ArrowRight className="w-5 h-5" />
-            </Link>
-            <Link 
-              href="#demo"
-              className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-zinc-100 text-zinc-900 rounded-full font-semibold text-lg hover:bg-zinc-200 transition-colors"
-            >
-              Try the Demo
-            </Link>
+            <span>Scroll</span>
+            <div className="w-[1px] h-12 bg-gradient-to-b from-zinc-500 to-transparent" />
           </motion.div>
-        </div>
-      </section>
+        </section>
 
-      {/* Interactive Demo Section */}
-      <section id="demo" className="px-6 pb-20">
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
-          <div className="text-center mb-10">
-            <h2 className="text-sm font-bold tracking-wider text-blue-600 uppercase mb-2">Live Preview</h2>
-            <p className="text-zinc-500">See the difference between flat imagery and spatial 3D.</p>
+        {/* Marquee Section */}
+        <section className="py-12 border-y border-white/5 bg-black/50 overflow-hidden whitespace-nowrap">
+          <div className="flex animate-marquee gap-20 items-center justify-center min-w-full">
+            {[...Array(2)].map((_, i) => (
+              <div key={i} className="flex gap-20 text-4xl md:text-6xl font-bold tracking-tighter text-white/5 select-none">
+                <span>SHOPIFY</span>
+                <span>WOOCOMMERCE</span>
+                <span>MAGENTO</span>
+                <span>BIGCOMMERCE</span>
+                <span>SHOPIFY</span>
+                <span>WOOCOMMERCE</span>
+                <span>MAGENTO</span>
+                <span>BIGCOMMERCE</span>
+              </div>
+            ))}
           </div>
-          
-          <ProductViewer />
-          
-        </motion.div>
-      </section>
+        </section>
 
-      {/* Value Props / How it works */}
-      <section id="how-it-works" className="py-24 px-6 bg-zinc-50">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-zinc-900">Effortless Transformation</h2>
-            <p className="text-zinc-500 text-lg">No 3D artists required. Just your products and our AI.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card 
-              icon={<Upload className="w-6 h-6 text-blue-600" />}
-              title="1. Upload"
-              description="Upload your existing high-res product photography directly to our secure dashboard."
-            />
-            <Card 
-              icon={<Layers className="w-6 h-6 text-blue-600" />}
-              title="2. Convert"
-              description="Our specialized AI analyzes geometry and texture to build a photorealistic 3D model in minutes."
-            />
-            <Card 
-              icon={<Smartphone className="w-6 h-6 text-blue-600" />}
-              title="3. Integrate"
-              description="Copy one line of code to embed the 3D viewer on your product page. Instantly AR ready."
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Benefits List */}
-      <section className="py-24 px-6 bg-white">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
-          <div className="flex-1 space-y-8">
-            <h2 className="text-3xl md:text-5xl font-bold leading-tight text-zinc-900">
-              Why leading brands are switching to 3D.
-            </h2>
-            <p className="text-lg text-zinc-500">
-              Static images are a thing of the past. Give your customers the confidence to buy by letting them inspect every detail.
-            </p>
+        {/* Features Grid - Sticky Scroll */}
+        <section className="py-32 px-6 relative z-10 bg-[#050505]">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-20 md:gap-40 items-start">
+            <div className="sticky top-32">
+              <h2 className="text-5xl md:text-7xl font-bold tracking-tighter mb-8 leading-[0.9]">
+                Spatial <br />
+                <span className="text-purple-500">Commerce.</span>
+              </h2>
+              <p className="text-xl text-zinc-400 max-w-sm mb-12">
+                Your products deserve more than a 2D grid. Give them volume, texture, and presence.
+              </p>
+              
+              <ul className="space-y-8">
+                <FeatureItem 
+                  title="Photorealistic Detail" 
+                  desc="Our AI preserves every stitch, grain, and reflection from your original photography."
+                />
+                <FeatureItem 
+                  title="Instant AR" 
+                  desc="One tap to view in room. No app download required. Works on iOS and Android native."
+                />
+                <FeatureItem 
+                  title="Universal Embed" 
+                  desc="Copy-paste integration for any platform. Lightweight and SEO friendly."
+                />
+              </ul>
+            </div>
             
-            <div className="space-y-4">
-              <BenefitItem text="Increase conversion rates by up to 40%" />
-              <BenefitItem text="Reduce return rates with accurate AR previews" />
-              <BenefitItem text="Boost engagement and time-on-page" />
-              <BenefitItem text="Compatible with Shopify, Magento, and more" />
-            </div>
-
-            <div className="pt-4">
-              <Link 
-                href="https://calendly.com"
-                className="text-blue-600 font-semibold hover:text-blue-700 inline-flex items-center gap-2"
-              >
-                Start your transformation <ArrowRight className="w-4 h-4" />
-              </Link>
+            <div className="space-y-10 pt-20 md:pt-0">
+               <VisualCard icon={<Upload />} title="Upload" color="bg-blue-500/10 border-blue-500/20 text-blue-400" />
+               <VisualCard icon={<Layers />} title="Process" color="bg-purple-500/10 border-purple-500/20 text-purple-400" />
+               <VisualCard icon={<Smartphone />} title="Deploy" color="bg-green-500/10 border-green-500/20 text-green-400" />
             </div>
           </div>
-          
-          <div className="flex-1 w-full">
-             <div className="bg-blue-600 text-white rounded-3xl p-10 md:p-16 text-center">
-                <h3 className="text-3xl font-bold mb-4">40%</h3>
-                <p className="text-blue-100 text-lg mb-8">Average conversion uplift for products with 3D/AR enabled.</p>
-                <div className="h-1 w-20 bg-white/20 mx-auto rounded-full"/>
+        </section>
+
+        {/* Interactive Demo Section */}
+        <section id="demo" className="py-32 px-6 relative border-t border-white/5">
+          <div className="max-w-7xl mx-auto">
+             <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+                <h2 className="text-4xl md:text-6xl font-bold tracking-tighter">
+                  Take it for a <br/>
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">Spin.</span>
+                </h2>
+                <p className="text-zinc-500 text-right max-w-xs">
+                  Interact with the model below. Use your mouse or finger to rotate and zoom.
+                </p>
+             </div>
+
+             {/* The Optimized ProductViewer */}
+             <div className="w-full h-[600px] md:h-[800px] bg-white/5 rounded-[3rem] border border-white/10 overflow-hidden relative group hover:border-white/20 transition-colors">
+                <ProductViewer />
              </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* CTA Footer */}
-      <section className="py-32 px-6 bg-zinc-900 text-white text-center">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold mb-8">Ready to modernize your store?</h2>
-          <p className="text-zinc-400 text-lg mb-10">
-            Join the Early Access Program today. No credit card required, just a conversation about your needs.
-          </p>
-          <Link 
-            href="https://calendly.com" 
-            target="_blank"
-            className="inline-flex items-center gap-2 px-10 py-4 bg-white text-black text-lg font-bold rounded-full hover:bg-zinc-200 transition-colors"
-          >
-            Schedule a Consultation
-          </Link>
-        </div>
-      </section>
+        {/* Metrics / Stats */}
+        <section className="py-40 px-6 border-y border-white/5 bg-zinc-900/20">
+           <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+              <Stat number="40%" label="Conversion Lift" />
+              <Stat number="3x" label="Engagement Time" />
+              <Stat number="-25%" label="Return Rate" />
+           </div>
+        </section>
 
-      {/* Simple Footer */}
-      <footer className="py-12 px-6 bg-white border-t border-zinc-100">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-sm text-zinc-500">
-          <div className="flex items-center gap-2 mb-4 md:mb-0">
-             <Box className="w-5 h-5 text-zinc-900" />
-             <span className="font-bold text-zinc-900">dephra</span>
-          </div>
-          <div className="flex gap-8">
-            <a href="#" className="hover:text-zinc-900">About</a>
-            <a href="#" className="hover:text-zinc-900">Privacy</a>
-            <a href="mailto:contact@dephra.com" className="hover:text-zinc-900">Contact</a>
-          </div>
-          <p className="mt-4 md:mt-0">&copy; 2024 Dephra Inc.</p>
-        </div>
-      </footer>
-    </main>
+        {/* Footer */}
+        <footer className="py-32 px-6 relative overflow-hidden">
+           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-900/5 to-purple-900/20 pointer-events-none" />
+           <div className="max-w-5xl mx-auto text-center relative z-10">
+              <h2 className="text-[10vw] font-bold tracking-tighter leading-none mb-10 text-white mix-blend-overlay">
+                DEPHRA
+              </h2>
+              <div className="flex flex-col md:flex-row items-center justify-center gap-8 mb-20">
+                <Link href="#" className="text-2xl font-medium hover:text-purple-400 transition-colors">Start Trial</Link>
+                <Link href="#" className="text-2xl font-medium hover:text-purple-400 transition-colors">Book Demo</Link>
+                <Link href="#" className="text-2xl font-medium hover:text-purple-400 transition-colors">Contact</Link>
+              </div>
+              <div className="flex justify-between items-center text-sm text-zinc-600 border-t border-white/5 pt-8">
+                 <p>© 2024 Dephra Inc.</p>
+                 <div className="flex gap-4">
+                    <span>Privacy</span>
+                    <span>Terms</span>
+                 </div>
+              </div>
+           </div>
+        </footer>
+
+      </main>
+    </SmoothScroll>
   );
 }
 
-function Card({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
+function FeatureItem({ title, desc }: { title: string, desc: string }) {
   return (
-    <div className="bg-white p-8 rounded-2xl shadow-sm border border-zinc-100 hover:shadow-md transition-shadow">
-      <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-6">
-        {icon}
-      </div>
-      <h3 className="text-xl font-bold text-zinc-900 mb-3">{title}</h3>
-      <p className="text-zinc-500 leading-relaxed">
-        {description}
-      </p>
+    <div className="border-l border-white/10 pl-6 hover:border-purple-500 transition-colors group cursor-default">
+      <h3 className="text-xl font-bold mb-2 group-hover:text-white transition-colors text-zinc-300">{title}</h3>
+      <p className="text-zinc-500 text-sm leading-relaxed">{desc}</p>
     </div>
   )
 }
 
-function BenefitItem({ text }: { text: string }) {
+function VisualCard({ icon, title, color }: { icon: React.ReactNode, title: string, color: string }) {
   return (
-    <div className="flex items-center gap-3">
-      <CheckCircle2 className="w-5 h-5 text-blue-600 flex-shrink-0" />
-      <span className="text-zinc-700 font-medium">{text}</span>
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.8 }}
+      className={`aspect-video rounded-3xl border flex flex-col items-center justify-center gap-6 ${color} backdrop-blur-sm`}
+    >
+      <div className="scale-150">{icon}</div>
+      <span className="text-2xl font-bold tracking-tight">{title}</span>
+    </motion.div>
+  )
+}
+
+function Stat({ number, label }: { number: string, label: string }) {
+  return (
+    <div>
+      <div className="text-7xl md:text-9xl font-bold tracking-tighter mb-4 text-transparent bg-clip-text bg-gradient-to-b from-white to-white/20">
+        {number}
+      </div>
+      <div className="text-xl text-zinc-500 font-medium tracking-wide uppercase">
+        {label}
+      </div>
     </div>
   )
 }
