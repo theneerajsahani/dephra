@@ -127,11 +127,13 @@ export default function ProductViewer() {
                   <OrbitControls 
                     makeDefault 
                     autoRotate 
-                    autoRotateSpeed={0.8}
+                    autoRotateSpeed={0.5}
                     enableZoom={true} 
-                    minDistance={2}
-                    maxDistance={8}
-                    maxPolarAngle={Math.PI / 1.8}
+                    enablePan={false}
+                    minDistance={2.5}
+                    maxDistance={6}
+                    minPolarAngle={0}
+                    maxPolarAngle={Math.PI / 2}
                   />
               </Canvas>
               
