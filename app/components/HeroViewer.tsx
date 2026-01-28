@@ -33,22 +33,19 @@ export default function HeroViewer() {
     <div className="absolute inset-0 z-0 pointer-events-none">
       <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 5], fov: 45 }}>
         <Suspense fallback={null}>
-          <color attach="background" args={['#000000']} />
-          <fog attach="fog" args={['#000000', 5, 15]} />
+          <color attach="background" args={['#ffffff']} />
+          
+          <ambientLight intensity={0.7} />
+          <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1.5} color="#ffffff" castShadow />
+          <pointLight position={[-10, -10, -10]} intensity={0.5} color="#f0f0f0" />
+          <directionalLight position={[0, 5, 5]} intensity={1} />
 
-          {/* Cinematic Lighting */}
-          <ambientLight intensity={0.5} />
-          <spotLight position={[10, 10, 10]} angle={0.3} penumbra={1} intensity={2} color="#3b82f6" castShadow />
-          <spotLight position={[-10, 5, -10]} angle={0.3} penumbra={1} intensity={1} color="#ffffff" />
-          <pointLight position={[0, -2, 2]} intensity={1} color="#3b82f6" />
-
-          {/* Floating Model */}
-          <Float speed={2} rotationIntensity={0.5} floatIntensity={1} floatingRange={[-0.2, 0.2]}>
+          <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.5} floatingRange={[-0.1, 0.1]}>
              <Model url={modelPath} />
-             <ContactShadows resolution={512} scale={10} blur={2} opacity={0.5} far={10} color="#000000" />
+             <ContactShadows resolution={1024} scale={15} blur={2} opacity={0.15} far={10} color="#000000" />
           </Float>
 
-          <Environment preset="night" blur={1} />
+          <Environment preset="studio" />
         </Suspense>
       </Canvas>
     </div>

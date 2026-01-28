@@ -16,9 +16,9 @@ function Loader() {
   const { progress } = useProgress();
   return (
     <Html center>
-      <div className="flex flex-col items-center gap-2 px-4 py-2 bg-black/90 backdrop-blur rounded-lg shadow-lg border border-zinc-800">
-        <Loader2 className="w-5 h-5 animate-spin text-blue-500" />
-        <span className="text-xs font-semibold text-zinc-400">{progress.toFixed(0)}% loaded</span>
+      <div className="flex flex-col items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-xl rounded-full border border-zinc-200 shadow-sm">
+        <Loader2 className="w-4 h-4 animate-spin text-black" />
+        <span className="text-[10px] font-bold tracking-tighter text-zinc-900">{progress.toFixed(0)}%</span>
       </div>
     </Html>
   );
@@ -32,41 +32,41 @@ export default function ProductViewer() {
   const modelPath = "/assets/demo/sofa-model.glb";
 
   return (
-    <div className="w-full max-w-5xl mx-auto">
+    <div className="w-full">
       {/* Controls */}
-      <div className="flex justify-center mb-8">
-        <div className="bg-zinc-900 p-1 rounded-full flex gap-1 border border-zinc-800">
+      <div className="flex justify-center mb-12">
+        <div className="bg-zinc-100/50 p-1.5 rounded-full flex gap-1 border border-zinc-200/50 backdrop-blur-sm">
           <button
             onClick={() => setView("2d")}
-            className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
+            className={`px-8 py-2.5 rounded-full text-xs font-bold tracking-tight transition-all ${
               view === "2d" 
-                ? "bg-zinc-800 text-white shadow-sm" 
-                : "text-zinc-500 hover:text-zinc-300"
+                ? "bg-white text-black shadow-sm" 
+                : "text-zinc-400 hover:text-zinc-600"
             }`}
           >
             <span className="flex items-center gap-2">
-              <Layers className="w-4 h-4" />
-              Standard View
+              <Layers className="w-3.5 h-3.5" />
+              Standard
             </span>
           </button>
           <button
             onClick={() => setView("3d")}
-            className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
+            className={`px-8 py-2.5 rounded-full text-xs font-bold tracking-tight transition-all ${
               view === "3d" 
-                ? "bg-blue-600 text-white shadow-sm" 
-                : "text-zinc-500 hover:text-zinc-300"
+                ? "bg-black text-white shadow-sm" 
+                : "text-zinc-400 hover:text-zinc-600"
             }`}
           >
             <span className="flex items-center gap-2">
-              <Rotate3D className="w-4 h-4" />
-              Interactive 3D
+              <Rotate3D className="w-3.5 h-3.5" />
+              Interactive
             </span>
           </button>
         </div>
       </div>
 
       {/* Viewer Window */}
-      <div className="relative aspect-square md:aspect-[16/9] bg-zinc-950 rounded-3xl border border-zinc-800 overflow-hidden shadow-2xl shadow-blue-500/5">
+      <div className="relative aspect-[16/10] bg-[#fdfdfd] rounded-[2.5rem] border border-zinc-200/60 overflow-hidden">
         <AnimatePresence mode="wait">
           {view === "2d" ? (
             <motion.div
@@ -74,21 +74,17 @@ export default function ProductViewer() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="absolute inset-0 flex items-center justify-center bg-black"
+              transition={{ duration: 0.4 }}
+              className="absolute inset-0 flex items-center justify-center bg-white"
             >
               <div className="relative w-full h-full">
                 <Image 
                     src={imagePath}
                     alt="Product Front View"
                     fill
-                    className="object-contain p-8 md:p-12 opacity-80"
+                    className="object-contain p-12 md:p-24"
                     priority
                 />
-              </div>
-              
-              <div className="absolute bottom-6 left-6 px-4 py-2 bg-zinc-900/90 backdrop-blur border border-zinc-800 rounded-lg text-xs font-semibold text-zinc-500 shadow-sm">
-                STATIC IMAGE
               </div>
             </motion.div>
           ) : (
@@ -97,12 +93,12 @@ export default function ProductViewer() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="absolute inset-0 bg-zinc-950 cursor-grab active:cursor-grabbing"
+              transition={{ duration: 0.4 }}
+              className="absolute inset-0 bg-[#f8f8f8] cursor-grab active:cursor-grabbing"
             >
                <Canvas 
                   dpr={[1, dpr]} 
-                  camera={{ position: [0, 1, 4], fov: 45 }}
+                  camera={{ position: [0, 1, 4], fov: 40 }}
                   shadows={false}
                 >
                   <PerformanceMonitor 
@@ -111,15 +107,15 @@ export default function ProductViewer() {
                   />
 
                   <Suspense fallback={<Loader />}>
-                    <ambientLight intensity={0.5} />
-                    <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={2} color="#3b82f6" />
+                    <ambientLight intensity={0.8} />
+                    <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} color="#ffffff" />
                     
-                    <group position={[0, -0.5, 0]}>
+                    <group position={[0, -0.6, 0]}>
                        <Model url={modelPath} />
-                       <ContactShadows resolution={256} scale={10} blur={2} opacity={0.6} far={10} color="#000000" />
+                       <ContactShadows resolution={512} scale={12} blur={2.5} opacity={0.1} far={10} color="#000000" />
                     </group>
 
-                    <Environment preset="night" />
+                    <Environment preset="studio" />
                   </Suspense>
                   
                   <OrbitControls 
@@ -131,13 +127,13 @@ export default function ProductViewer() {
                     minDistance={2.5}
                     maxDistance={6}
                     minPolarAngle={0}
-                    maxPolarAngle={Math.PI / 2}
+                    maxPolarAngle={Math.PI / 1.8}
                   />
               </Canvas>
               
-              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 text-zinc-500 text-xs font-medium pointer-events-none select-none bg-black/50 px-3 py-1.5 rounded-full backdrop-blur-sm border border-zinc-800">
+              <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 text-zinc-400 text-[10px] font-bold tracking-widest uppercase pointer-events-none select-none bg-white/50 px-4 py-2 rounded-full backdrop-blur-md border border-zinc-100">
                 <Rotate3D className="w-3 h-3" />
-                DRAG TO ROTATE • SCROLL TO ZOOM
+                Interact to Rotate
               </div>
             </motion.div>
           )}
