@@ -1,9 +1,10 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #000000;
-  --grid-color: rgba(0, 0, 0, 0.03);
+  --background: #000000;
+  --foreground: #ffffff;
+  --grid-color: rgba(255, 255, 255, 0.05);
+  --accent: #3b82f6;
 }
 
 body {
@@ -14,7 +15,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Film Grain Overlay (Dark Noise for Light Mode) */
+/* Film Grain Overlay */
 .bg-noise {
   position: fixed;
   top: 0;
@@ -23,16 +24,19 @@ body {
   height: 100%;
   pointer-events: none;
   z-index: 9999;
-  opacity: 0.04;
+  opacity: 0.05;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  filter: invert(1);
 }
 
 /* Technical Grid Background */
 .bg-grid {
-  background-size: 50px 50px;
+  background-size: 40px 40px;
   background-image: linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
                     linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+}
+
+.bg-radial-gradient {
+  background: radial-gradient(circle at center, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
 }
 
 /* Lenis Scroll */
