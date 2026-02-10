@@ -26,8 +26,8 @@ export default function Navbar() {
                 }`}
         >
             <div className="flex items-center gap-8">
-                <Link href="/" className="text-lg font-semibold tracking-tight text-black flex items-center gap-2">
-                    <span className="opacity-90">dephra</span>
+                <Link href="/" className="text-lg font-semibold tracking-tighter text-black flex items-center gap-2">
+                    <span className="opacity-90">DEPHRA</span>
                 </Link>
 
                 <div className="hidden md:flex items-center gap-6">
@@ -42,7 +42,7 @@ export default function Navbar() {
                     href="#schedule"
                     className="text-[11px] font-medium bg-black text-white px-4 py-1.5 rounded-full hover:bg-zinc-800 transition-all flex items-center gap-1"
                 >
-                    Contact <ArrowUpRight size={12} strokeWidth={3} />
+                    Schedule a Call <ArrowUpRight size={12} strokeWidth={3} />
                 </Link>
             </div>
         </motion.nav>
