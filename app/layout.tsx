@@ -1,20 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
-  title: "Dephra | 3D Ecommerce Platform",
-  description: "Turn your product images into AR/VR ready 3D models.",
+  title: "Dephra | Spatial Experience Studio",
+  description: "Redefining e-commerce through high-fidelity spatial 3D experiences.",
 };
 
 export default function RootLayout({
@@ -23,9 +12,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="antialiased">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className="font-sans selection:bg-black selection:text-white"
+        style={{
+          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
+        }}
       >
         {children}
       </body>
