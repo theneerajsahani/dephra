@@ -8,7 +8,7 @@ import { products } from "@/app/lib/products";
 
 export default function Showcase() {
     return (
-        <section className="py-40 px-6 md:px-12 bg-white">
+        <section id="showcase" className="py-40 px-6 md:px-12 bg-white">
             <div className="max-w-6xl mx-auto">
                 <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
                     <div className="max-w-xl">

@@ -21,8 +21,8 @@ export default function Navbar() {
             animate={{ y: 0 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 h-12 md:h-14 transition-all duration-300 border-b ${isScrolled
-                    ? "bg-white/70 backdrop-blur-md border-black/5"
-                    : "bg-transparent border-transparent"
+                ? "bg-white/70 backdrop-blur-md border-black/5"
+                : "bg-transparent border-transparent"
                 }`}
         >
             <div className="flex items-center gap-8">
@@ -31,14 +31,8 @@ export default function Navbar() {
                 </Link>
 
                 <div className="hidden md:flex items-center gap-6">
-                    <Link href="/demo/sofa" className="text-xs font-medium text-black/60 hover:text-black transition-colors">
-                        Sofa Demo
-                    </Link>
-                    <Link href="#" className="text-xs font-medium text-black/60 hover:text-black transition-colors">
-                        Technology
-                    </Link>
-                    <Link href="#" className="text-xs font-medium text-black/60 hover:text-black transition-colors">
-                        Enterprise
+                    <Link href="#showcase" className="text-xs font-medium text-black/60 hover:text-black transition-colors">
+                        Demo
                     </Link>
                 </div>
             </div>
