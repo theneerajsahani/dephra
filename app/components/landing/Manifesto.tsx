@@ -17,7 +17,7 @@ export default function Manifesto() {
                     </span>
                     <h2 className="text-4xl md:text-6xl font-semibold leading-[1.1] tracking-tight mb-20">
                         <span className="text-black">We believe e-commerce is stuck in 2D. </span>
-                        <span className="text-black/30">Buying something you can't touch requires a leap of faith. </span>
+                        <span className="text-black/30">Buying shouldn't be a leap of faith. </span>
                         <span className="text-black">We bridge that gap.</span>
                     </h2>
 
